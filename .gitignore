@@ -10,4 +10,5 @@ node_modules/
 # Uploaded files (keep folder placeholders)
 views/assets/uploads/*
 !views/assets/uploads/.gitkeep
-!views/assets/uploads/**/.gitkeep
+!views/assets/uploads/countries/
+!views/assets/uploads/countries/.gitkeep
