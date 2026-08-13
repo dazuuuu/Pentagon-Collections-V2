@@ -1,11 +1,12 @@
 <?php
 /**
  * Migration runner.
- *   php database/migrate.php            Run all pending migrations
- *   php database/migrate.php --fresh    Drop all known tables, then run every migration
+ *   php apps/apps_collections/database/migrate.php            Run all pending migrations
+ *   php apps/apps_collections/database/migrate.php --fresh    Drop all known tables, then run every migration
  */
 
-require dirname(__DIR__) . '/vendor/autoload.php';
+require dirname(__DIR__) . '/app/paths.php';
+require APP_ROOT . '/vendor/autoload.php';
 
 use App\Core\Env;
 use App\Core\Database;

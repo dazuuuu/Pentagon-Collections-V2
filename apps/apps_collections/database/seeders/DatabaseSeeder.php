@@ -6,10 +6,11 @@
  *      export) — safe to re-run, existing rows (by id) are left untouched.
  *   3. Backfills applicant_id on every application so it shows up on the
  *      matching applicant's portal dashboard.
- * Run: php database/seeders/DatabaseSeeder.php
+ * Run: php apps/apps_collections/database/seeders/DatabaseSeeder.php
  */
 
-require dirname(__DIR__, 2) . '/vendor/autoload.php';
+require dirname(__DIR__, 2) . '/app/paths.php';
+require APP_ROOT . '/vendor/autoload.php';
 
 use App\Core\Env;
 use App\Core\Database;
@@ -33,7 +34,7 @@ if (!$exists->fetch()) {
 }
 
 // --- Legacy applications import ---
-$dumpFile = dirname(__DIR__, 2) . '/origin_db/uhwlqvsp_alnahda.sql';
+$dumpFile = APP_ROOT . '/origin_db/uhwlqvsp_alnahda.sql';
 if (is_file($dumpFile)) {
     $sql = file_get_contents($dumpFile);
     // Lazy match up to ";\n--" (the next SQL comment block) rather than the first ";" —

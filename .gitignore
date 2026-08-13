@@ -1,0 +1,13 @@
+.DS_Store
+*.log
+node_modules/
+
+# Secrets — keep .env.example
+.env
+.env.*
+!.env.example
+
+# Uploaded files (keep folder placeholders)
+views/assets/uploads/*
+!views/assets/uploads/.gitkeep
+!views/assets/uploads/**/.gitkeep
