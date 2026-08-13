@@ -6,7 +6,7 @@ class UploadException extends \Exception {}
 
 /**
  * Image upload handling for the admin panel (country flags/cover photos).
- * Validates, renames, and stores under views/assets/uploads/{subdir}/
+ * Validates, renames, and stores under public/assets/uploads/{subdir}/
  * (public_html/assets/uploads/ on hosting) — returns the relative URL to save in the DB.
  */
 class UploadService

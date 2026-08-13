@@ -1,7 +1,7 @@
 <?php
 /**
  * Application bootstrap — required once by the front controller
- * (views/index.php, which becomes public_html/index.php on hosting).
+ * (public/index.php, which becomes public_html/index.php on hosting).
  * All application code, vendor, and .env live in apps/apps_collections/.
  */
 

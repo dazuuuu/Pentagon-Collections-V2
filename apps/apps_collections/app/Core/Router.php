@@ -3,8 +3,8 @@
 namespace App\Core;
 
 /**
- * Single-file path handler: views/index.php (public_html/index.php on hosting)
- * is the only script Apache ever executes (see views/.htaccess) — every route
+ * Single-file path handler: public/index.php (public_html/index.php on hosting)
+ * is the only script Apache ever executes (see public/.htaccess) — every route
  * below maps a clean URL to a Controller@method.
  */
 class Router

@@ -13,7 +13,10 @@ class View
 
     public static function render(string $view, array $data = []): void
     {
-        self::$basePath = self::$basePath ?? dirname(__DIR__) . '/Views/';
+        if (!defined('PUBLIC_PATH')) {
+            require dirname(__DIR__) . '/paths.php';
+        }
+        self::$basePath = self::$basePath ?? PUBLIC_PATH . '/views/';
         $file = self::$basePath . str_replace('.', '/', $view) . '.php';
         if (!is_file($file)) {
             throw new \RuntimeException("View not found: {$view} ({$file})");

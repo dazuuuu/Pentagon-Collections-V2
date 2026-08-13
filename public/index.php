@@ -3,7 +3,8 @@
  * Front controller — the only PHP file Apache executes (see .htaccess).
  *
  * On shared hosting copy this folder's contents into public_html/.
- * Application code lives one level above, in apps/apps_collections/.
+ * Templates live in public/views/. Application code lives one level above,
+ * in apps/apps_collections/.
  */
 
 define('PUBLIC_PATH', __DIR__);
