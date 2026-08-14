@@ -2,14 +2,24 @@
 /**
  * Shared admin shell (sidebar + topbar). Include after setting:
  *   $pageTitle  — shown in <title> and the topbar
- *   $activeNav  — one of: dashboard, applications, countries, testimonials, admin-users
+ *   $activeNav  — one of: dashboard, applications, countries, testimonials, admin-users, settings
  * Requires App\Core\AdminSession::require() to have already run.
  */
 
 use App\Core\AdminSession;
 use App\Models\Admin;
+use App\Services\MigrationService;
 
 $admin = AdminSession::current();
+
+$pendingMigrations = 0;
+if (Admin::isSuperAdmin($admin)) {
+    try {
+        $pendingMigrations = MigrationService::pendingCount();
+    } catch (\Throwable $e) {
+        $pendingMigrations = 0;
+    }
+}
 
 $navItems = [
     ['id' => 'dashboard', 'href' => url('/admin'), 'label' => 'Dashboard'],
@@ -25,6 +35,10 @@ if (Admin::hasPermission($admin, 'countries')) {
 }
 if (Admin::isSuperAdmin($admin)) {
     $navItems[] = ['id' => 'admin-users', 'href' => url('/admin/users'), 'label' => 'Manage Admins'];
+    $settingsLabel = $pendingMigrations
+        ? 'Settings (' . $pendingMigrations . ')'
+        : 'Settings';
+    $navItems[] = ['id' => 'settings', 'href' => url('/admin/settings'), 'label' => $settingsLabel];
 }
 ?>
 <!doctype html>
@@ -101,6 +115,22 @@ if (Admin::isSuperAdmin($admin)) {
       <h1 class="font-serif-heading text-xl font-bold text-[#0f2852]"><?= e($pageTitle ?? '') ?></h1>
     </header>
     <main class="p-4 lg:p-6">
+      <?php if ($pendingMigrations > 0 && ($activeNav ?? '') !== 'settings'): ?>
+        <div class="mb-5 bg-amber-50 border border-amber-300 text-amber-950 rounded-lg p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <p class="text-sm font-semibold">
+            Database update available.
+            <?= (int) $pendingMigrations ?> new migration<?= $pendingMigrations === 1 ? '' : 's' ?>
+            <?= $pendingMigrations === 1 ? 'needs' : 'need' ?> to run after the latest upload.
+          </p>
+          <form method="post" action="<?= url('/admin/settings/migrate') ?>" class="shrink-0">
+            <?= csrfField() ?>
+            <input type="hidden" name="redirect_to" value="<?= e(\App\Core\Url::currentPath()) ?>">
+            <button type="submit" class="bg-amber-400 hover:bg-amber-300 text-[#132c5c] text-xs font-bold px-4 py-2 rounded-lg uppercase tracking-widest cursor-pointer whitespace-nowrap">
+              Run migrations
+            </button>
+          </form>
+        </div>
+      <?php endif; ?>
       <?php if (!empty($_SESSION['flash_success'])): ?>
         <div class="mb-5 bg-emerald-50 border border-emerald-300 text-emerald-800 text-sm font-semibold rounded-lg p-3">
           <?= e($_SESSION['flash_success']) ?>
