@@ -25,10 +25,10 @@ abstract class BaseAdminController
     }
 
     /** Redirects to the dashboard with an error unless the signed-in admin is a super admin. */
-    protected function requireSuperAdmin(): void
+    protected function requireSuperAdmin(string $message = 'Only super admins can manage admin accounts.'): void
     {
         if (!Admin::isSuperAdmin($this->admin)) {
-            flashError("Only super admins can manage admin accounts.");
+            flashError($message);
             redirect('/admin');
         }
     }

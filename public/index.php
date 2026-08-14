@@ -3,7 +3,8 @@
  * Front controller — the only PHP file Apache executes (see .htaccess).
  *
  * On shared hosting copy this folder's contents into public_html/.
- * Application code lives one level above, in apps/apps_collections/.
+ * Templates live in public/views/. Application code lives one level above,
+ * in apps/apps_collections/.
  */
 
 define('PUBLIC_PATH', __DIR__);
@@ -19,6 +20,7 @@ use App\Controllers\Admin\ApplicationController as AdminApplicationController;
 use App\Controllers\Admin\AdminUserController;
 use App\Controllers\Admin\CountryController as AdminCountryController;
 use App\Controllers\Admin\TestimonialController as AdminTestimonialController;
+use App\Controllers\Admin\SettingsController as AdminSettingsController;
 use App\Controllers\Portal\AuthController as PortalAuthController;
 use App\Controllers\Portal\DashboardController as PortalDashboardController;
 use App\Controllers\Portal\TestimonialController as PortalTestimonialController;
@@ -70,6 +72,10 @@ $router->post('/admin/users', [AdminUserController::class, 'store']);
 $router->get('/admin/users/{id}/edit', [AdminUserController::class, 'edit']);
 $router->post('/admin/users/{id}', [AdminUserController::class, 'update']);
 $router->post('/admin/users/{id}/delete', [AdminUserController::class, 'destroy']);
+
+// --- Admin: settings (super admin — run PHP migrations after an update) ---
+$router->get('/admin/settings', [AdminSettingsController::class, 'index']);
+$router->post('/admin/settings/migrate', [AdminSettingsController::class, 'migrate']);
 
 // --- Applicant portal ---
 $router->get('/portal/login', [PortalAuthController::class, 'showLogin']);
